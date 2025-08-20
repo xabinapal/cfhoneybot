@@ -1,0 +1,8 @@
+# Dependency directories
+node_modules/
+
+# SvelteKit build
+.svelte-kit/
+
+# Wrangler build
+.wrangler/

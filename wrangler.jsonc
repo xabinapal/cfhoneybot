@@ -1,0 +1,26 @@
+{
+	"name": "cfhoneybot",
+	"compatibility_date": "2025-08-19",
+	"compatibility_flags": ["nodejs_compat"],
+	"observability": { "enabled": true },
+
+	"vars": {
+		"CFHONEYBOT_MAX_REQUESTS_DB": "1000",
+		"CFHONEYBOT_DASHBOARD_TOKEN": "your-secure-token-will-be-here",
+	},
+
+	"main": ".svelte-kit/cloudflare/index.js",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare/client",
+		"not_found_handling": "single-page-application",
+	},
+
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "cfhoneybot",
+			"database_id": "your-database-id-will-be-here",
+		},
+	],
+}

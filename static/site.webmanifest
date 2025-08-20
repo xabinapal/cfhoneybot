@@ -1,0 +1,21 @@
+{
+  "name": "CFHoneyBot",
+  "short_name": "CFHoneyBot",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#fff4d9",
+  "background_color": "#fff4d9",
+  "display": "standalone"
+}

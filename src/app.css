@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+@theme {
+	--color-primary-50: var(--color-gray-50);
+	--color-primary-100: var(--color-gray-100);
+	--color-primary-200: var(--color-gray-200);
+	--color-primary-300: var(--color-gray-300);
+	--color-primary-400: var(--color-gray-400);
+	--color-primary-500: var(--color-gray-500);
+	--color-primary-600: var(--color-gray-600);
+	--color-primary-700: var(--color-gray-700);
+
+	--color-secondary-50: var(--color-orange-50);
+	--color-secondary-100: var(--color-orange-100);
+	--color-secondary-200: var(--color-orange-200);
+	--color-secondary-300: var(--color-orange-300);
+	--color-secondary-400: var(--color-orange-400);
+	--color-secondary-500: var(--color-orange-500);
+	--color-secondary-600: var(--color-orange-600);
+}
+
+/* Button Classes */
+.btn {
+	@apply px-3 py-2 text-sm border rounded-md font-mono text-sm font-medium;
+}
+
+.btn:disabled {
+	@apply cursor-not-allowed;
+}
+
+.btn-primary {
+	@apply text-white border-secondary-600 bg-secondary-500;
+}
+
+.btn-primary:not(.btn-active):disabled {
+	@apply text-secondary-400 border-secondary-400 bg-secondary-200;
+}
+
+.btn-primary:not(.btn-active):not(:disabled) {
+	@apply hover:bg-secondary-600;
+}
+
+.btn-danger {
+	@apply text-white border-red-600 bg-red-600;
+}
+
+.btn-danger:not(.btn-active):disabled {
+	@apply text-red-400 border-red-400 bg-red-200;
+}
+
+.btn-danger:not(.btn-active):not(:disabled) {
+	@apply hover:bg-red-700;
+}
+
+.btn-secondary {
+	@apply border-primary-400 text-primary-500 bg-primary-50;
+}
+
+.btn-secondary:not(.btn-active):not(:disabled) {
+	@apply hover:bg-primary-100;
+}
+
+.btn-secondary:not(.btn-active):disabled {
+	@apply text-primary-400 bg-primary-200;
+}
+
+/* Alert Classes */
+.alert-container {
+	@apply fixed top-4 right-4 w-auto mb-4 border rounded p-4 opacity-0 transition-opacity duration-300;
+}
+
+.alert-success {
+	@apply bg-green-100 border-green-400 text-green-700;
+}
+
+.alert-error {
+	@apply bg-red-100 border-red-400 text-red-700;
+}
+
+.alert-visible {
+	@apply opacity-100;
+}
+
+/* Main Layout Classes */
+.main-layout {
+	@apply flex flex-col items-center justify-center gap-4 h-screen;
+}
+
+.main-logo {
+	@apply w-25;
+}
+
+.main-title {
+	@apply text-4xl text-secondary-500 font-bold;
+}
+
+.main-subtitle {
+	@apply text-2xl text-gray-500 font-bold;
+}
+
+/* Dashboard Layout Classes */
+.container-card {
+	@apply h-screen lg:p-4;
+}
+
+.scrollable-container {
+	@apply flex flex-col h-full overflow-y-scroll bg-white lg:border lg:border-primary-300 lg:rounded-l-lg lg:shadow-md;
+}
+
+.sticky-header {
+	@apply grid gap-4 sticky top-0 p-4 bg-white;
+}
+
+.header-section {
+	@apply flex items-center gap-4 pb-4 mb-2 border-b-2 border-secondary-500;
+}
+
+.header-logo {
+	@apply w-10 h-10;
+}
+
+.header-title {
+	@apply text-3xl font-bold text-secondary-500;
+}
+
+.header-subtitle {
+	@apply text-sm text-primary-500;
+}
+
+/* Pagination Classes */
+.pagination-container {
+	@apply flex items-center justify-between;
+}
+
+.pagination-info {
+	@apply text-sm text-primary-700;
+}
+
+.pagination-nav {
+	@apply flex items-center space-x-1;
+}
+
+/* Search Component Classes */
+.search-container {
+	@apply p-4 border border-primary-300 rounded-lg bg-primary-100;
+}
+
+.search-form {
+	@apply flex items-end gap-4;
+}
+
+.search-label {
+	@apply block mb-1 text-sm font-medium text-primary-700;
+}
+
+.search-input {
+	@apply w-full px-3 py-2 border border-primary-400 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary-500;
+}
+
+/* Requests Component Classes */
+.request-grid {
+	@apply grid grid-cols-1 gap-4 mx-4 mb-4;
+}
+
+.request-grid-empty {
+	@apply flex-grow items-center justify-center;
+}
+
+.requests-empty {
+	@apply text-center text-primary-500;
+}
+
+.request-item {
+	@apply grid grid-cols-1 gap-2 p-4 text-sm text-primary-600 border border-primary-200 bg-primary-50 rounded-lg;
+}
+
+.request-item-active {
+	@apply border-secondary-200 bg-secondary-50;
+}
+
+.request-field {
+	@apply p-1 font-mono rounded bg-primary-200;
+}
+
+.request-summary {
+	@apply cursor-pointer font-medium text-secondary-500 hover:text-secondary-600;
+}
+
+.request-details {
+	@apply min-h-10 max-h-40 w-full overflow-y-scroll p-2 text-xs font-mono border border-primary-200 rounded-l bg-primary-100 resize-none outline-none focus:ring-2 focus:ring-secondary-500 resize-none;
+}
+
+.request-checkbox-label {
+	@apply flex items-center gap-2;
+}
+
+.request-actions {
+	@apply flex items-center gap-2;
+}
