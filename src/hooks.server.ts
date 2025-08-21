@@ -21,6 +21,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	event.locals.db = db;
 
+	if (db && !building) {
+		const config = await db.selectFrom("config").select("enabled").executeTakeFirst();
+		event.locals.config = {
+			enabled: (config?.enabled || 0) === 1,
+		};
+	} else {
+		event.locals.config = {
+			enabled: true,
+		};
+	}
+
 	if (event.url.pathname.startsWith("/dashboard")) {
 		const token = event.url.searchParams.get("token");
 		if (token !== event.platform?.env?.CFHONEYBOT_DASHBOARD_TOKEN) {

@@ -29,6 +29,40 @@
 		goto(url.toString());
 	}
 
+	async function handleEnable() {
+		const formData = new FormData();
+		if (!data.config.enabled) {
+			formData.append("enabled", "on");
+		}
+
+		const response = await fetch(`?/enable&token=${encodeURIComponent(token)}`, {
+			method: "POST",
+			body: formData,
+		});
+
+		const result = deserialize(await response.text());
+
+		if (result.type === "success") {
+			successMessage = result.data.message;
+			errorMessage = "";
+			showBox = true;
+
+			setTimeout(() => {
+				showBox = false;
+				// Refresh the page data
+				window.location.reload();
+			}, 1000);
+		} else {
+			successMessage = "";
+			errorMessage = result.data.error;
+			showBox = true;
+
+			setTimeout(() => {
+				showBox = false;
+			}, 3000);
+		}
+	}
+
 	async function handleSearch(searchData) {
 		await updateUrl({
 			search: searchData.search || "",
@@ -107,7 +141,7 @@
 			<header class="header-section">
 				<img src="/favicon.svg" alt="CFHoneyBot Logo" class="header-logo" />
 				<div>
-					<h1 class="header-title">CFHoneyBot Dashboard</h1>
+					<h1 class="header-title">CFHoneyBot</h1>
 					<p class="header-subtitle">
 						{data.pagination.totalRequests} requests logged
 						{#if data.filters.search || data.filters.analyzed !== "all"}
@@ -115,6 +149,11 @@
 						{/if}
 					</p>
 				</div>
+
+				<label>
+					<input type="checkbox" checked={data.config.enabled} class="checkbox" onchange={handleEnable} />
+					<span class="text-sm">Enable request logging</span>
+				</label>
 			</header>
 
 			<Search search={data.filters.search || ""} analyzed={data.filters.analyzed || "all"} onSearch={handleSearch} />

@@ -5,7 +5,13 @@ import { D1Dialect } from "kysely-d1";
 export type Database = Kysely<Schema>;
 
 export interface Schema {
+	config: Configuration;
 	requests: Requests;
+}
+
+export interface Configuration {
+	id: ColumnType<number, number, never>;
+	enabled: ColumnType<number, number, number>;
 }
 
 export interface Requests {
@@ -36,6 +42,17 @@ export function createDatabase(db?: D1Database): Database {
 }
 
 export async function initDatabase(db: Database): Promise<void> {
+	await db.schema
+		.createTable("config")
+		.ifNotExists()
+		.addColumn("id", "integer", (col) => col.primaryKey())
+		.addColumn("enabled", "integer", (col) => col.notNull())
+		.execute();
+
+	if ((await db.selectFrom("config").selectAll().executeTakeFirst()) === undefined) {
+		await db.insertInto("config").values({ id: 1, enabled: 1 }).execute();
+	}
+
 	await db.schema
 		.createTable("requests")
 		.ifNotExists()

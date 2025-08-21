@@ -8,6 +8,9 @@ declare global {
 				status: number;
 				message: string;
 			};
+			config: {
+				enabled: boolean;
+			};
 			db: Database;
 		}
 		interface Platform {

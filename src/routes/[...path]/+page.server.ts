@@ -20,35 +20,37 @@ export const load: PageServerLoad = async (event) => {
 	const user_agent = headers["user-agent"] || "";
 	delete headers["user-agent"];
 
-	try {
-		await event.locals.db
-			.insertInto("requests")
-			.values({
-				ip: event.getClientAddress(),
-				ua: user_agent,
-				http: String(event.request.cf?.httpProtocol ?? "unknown"),
-				method: event.request.method,
-				host: host,
-				url: event.url.toString(),
-				headers: JSON.stringify(headers),
-				body: event.request.body ? await event.request.text() : "",
-			})
-			.execute();
-	} catch (ex) {
-		console.error(ex);
-		return error(500, "Error logging request");
-	}
+	if (event.locals.config.enabled) {
+		try {
+			await event.locals.db
+				.insertInto("requests")
+				.values({
+					ip: event.getClientAddress(),
+					ua: user_agent,
+					http: String(event.request.cf?.httpProtocol ?? "unknown"),
+					method: event.request.method,
+					host: host,
+					url: event.url.toString(),
+					headers: JSON.stringify(headers),
+					body: event.request.body ? await event.request.text() : "",
+				})
+				.execute();
+		} catch (ex) {
+			console.error(ex);
+			return error(500, "Error logging request");
+		}
 
-	const maxRequests = parseInt(event.platform!.env.CFHONEYBOT_MAX_REQUESTS_DB) || 0;
-	if (maxRequests > 0) {
-		await event.locals.db
-			.deleteFrom("requests")
-			.where(
-				"id",
-				"not in",
-				event.locals.db.selectFrom("requests").orderBy("ts", "desc").limit(maxRequests).select("id"),
-			)
-			.execute();
+		const maxRequests = parseInt(event.platform!.env.CFHONEYBOT_MAX_REQUESTS_DB) || 0;
+		if (maxRequests > 0) {
+			await event.locals.db
+				.deleteFrom("requests")
+				.where(
+					"id",
+					"not in",
+					event.locals.db.selectFrom("requests").orderBy("ts", "desc").limit(maxRequests).select("id"),
+				)
+				.execute();
+		}
 	}
 
 	return {};

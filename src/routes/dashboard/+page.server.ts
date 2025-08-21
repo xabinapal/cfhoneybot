@@ -59,6 +59,7 @@ export const load: PageServerLoad = async (event) => {
 		const totalPages = Math.ceil(total / PAGE_LIMIT);
 
 		return {
+			config: event.locals.config,
 			requests: processedResults,
 			pagination: {
 				currentPage: page,
@@ -77,6 +78,27 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions: Actions = {
+	enable: async (event) => {
+		if (event.locals.err) {
+			return fail(event.locals.err.status, event.locals.err.message);
+		}
+
+		try {
+			const formData = await event.request.formData();
+			const enabled = formData.get("enabled") === "on" ? 1 : 0;
+
+			await event.locals.db
+				.updateTable("config")
+				.set({
+					enabled: enabled as number,
+				})
+				.execute();
+
+			return { success: true, message: "Config updated" };
+		} catch {
+			return fail(500, { error: "Error updating config" });
+		}
+	},
 	update: async (event) => {
 		if (event.locals.err) {
 			return fail(event.locals.err.status, event.locals.err.message);
